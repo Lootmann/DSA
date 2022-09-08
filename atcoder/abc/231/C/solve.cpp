@@ -25,22 +25,17 @@ int main() {
 
   // O(N)
   for (int i = 0; i < n; i++) {
-    int height;
-    cin >> height;
-    heights[i] = height;
+    cin >> heights[i];
   }
 
   // O(n)
   sort(heights.begin(), heights.end());
-
-  int maxv = (int)heights.size();
 
   // O(q)
   for (int i = 0; i < q; i++) {
     int height;
     cin >> height;
 
-    int idx = l_bound(heights, height);
-    cout << maxv - idx << '\n';
+    cout << n - l_bound(heights, height) << '\n';
   }
 }
