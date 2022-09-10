@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define reps(i, n, s) for (int i = s; i < (int)(n); i++)
 using namespace std;
 using tpl = tuple<int, int, int, int>;
 
@@ -46,52 +48,52 @@ bool match(Dice &d1, Dice &d2) {
          d1.front_ == d2.front_ && d1.rear_ == d2.rear_;
 }
 
-bool is_same_dice(Dice &d1, Dice &d2) {
-  for (int j = 0; j < 4; j++) {
+bool is_same_dice(Dice d1, Dice d2) {
+  rep(i, 4) {
     d2.rotate_left();
     if (match(d1, d2)) return true;
   }
+
+  d2.roll_n();
+  rep(i, 4) {
+    d2.roll_w();
+    rep(j, 4) {
+      d2.rotate_left();
+      if (match(d1, d2)) return true;
+    }
+  }
+
+  d2.roll_n();
+  if (d1.top_ == d2.top_) {
+    for (int i = 0; i < 4; i++) {
+      d2.rotate_left();
+      if (match(d1, d2)) return true;
+    }
+  }
+
   return false;
 }
 
 Dice getDice() {
   int a, b, c, d, e, f;
   cin >> a >> b >> c >> d >> e >> f;
-
   return Dice(a, b, c, d, e, f);
 }
 
 int main() {
-  Dice dice1 = getDice();
-  Dice dice2 = getDice();
+  int n;
+  cin >> n;
 
-  if (is_same_dice(dice1, dice2)) {
-    cout << "Yes" << '\n';
-    return 0;
-  }
+  vector<Dice> dices;
+  rep(i, n) dices.emplace_back(getDice());
 
-  dice2.roll_n();
-  if (is_same_dice(dice1, dice2)) {
-    cout << "Yes" << '\n';
-    return 0;
-  }
-
-  for (int i = 0; i < 4; i++) {
-    dice2.roll_w();
-    if (is_same_dice(dice1, dice2)) {
-      cout << "Yes" << '\n';
+  rep(i, n) reps(j, n, i + 1) {
+    if (is_same_dice(dices[i], dices[j])) {
+      cout << "No" << '\n';
       return 0;
     }
   }
 
-  dice2.roll_n();
-  if (dice1.top_ == dice2.top_) {
-    if (is_same_dice(dice1, dice2)) {
-      cout << "Yes" << '\n';
-      return 0;
-    }
-  }
-
-  cout << "No" << '\n';
+  cout << "Yes" << '\n';
   return 0;
 }
