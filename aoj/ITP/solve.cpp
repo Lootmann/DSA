@@ -1,60 +1,99 @@
 #include <bits/stdc++.h>
-#define FastIO cin.tie(nullptr), ios_base::sync_with_stdio(false);
-#define REP(i, start, end) for (int i = start; i < (int)(end); i++)
-#define rep(i, n) REP(i, 0, n)
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define reps(i, n, s) for (int i = s; i < (int)(n); i++)
 using namespace std;
+using tpl = tuple<int, int, int, int>;
 
-using vi = vector<int>;
+class Dice {
+public:
+  int top_, front_, right_, left_, rear_, bottom_;
 
-double manhattan(vi x, vi y) {
-  double sum{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    sum += abs(x[i] - y[i]);
+  Dice(int a, int b, int c, int d, int e, int f)
+      : top_(a), front_(b), right_(c), left_(d), rear_(e), bottom_(f) {}
+
+  void roll_n() {
+    tie(top_, front_, bottom_, rear_) = tpl{front_, bottom_, rear_, top_};
   }
-  return sum;
+
+  void roll_s() {
+    tie(top_, front_, bottom_, rear_) = tpl{rear_, bottom_, front_, top_};
+  }
+
+  void roll_e() {
+    tie(top_, left_, bottom_, right_) = tpl{left_, bottom_, right_, top_};
+  }
+
+  void roll_w() {
+    tie(top_, left_, bottom_, right_) = tpl{right_, top_, left_, bottom_};
+  }
+
+  void rotate_left() {
+    tie(front_, right_, rear_, left_) = tpl{right_, rear_, left_, front_};
+  }
+
+  void rotate_right() {
+    tie(front_, right_, rear_, left_) = tpl{left_, rear_, right_, front_};
+  }
+};
+
+ostream &operator<<(ostream &os, const Dice &d) {
+  return os << ' ' << d.top_ << '\n'
+            << d.left_ << d.front_ << d.right_ << d.rear_ << '\n'
+            << ' ' << d.bottom_;
 }
 
-double euclidean(vi x, vi y) {
-  double sum{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    sum += pow((x[i] - y[i]), 2.0);
-  }
-  return sqrt(sum);
+bool match(Dice &d1, Dice &d2) {
+  return d1.top_ == d2.top_ && d1.bottom_ == d2.bottom_ &&
+         d1.right_ == d2.right_ && d1.left_ == d2.left_ &&
+         d1.front_ == d2.front_ && d1.rear_ == d2.rear_;
 }
 
-double p3(vi x, vi y) {
-  double sum{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    sum += pow(abs(x[i] - y[i]), 3.0);
+bool is_same_dice(Dice d1, Dice d2) {
+  rep(i, 4) {
+    d2.rotate_left();
+    if (match(d1, d2)) return true;
   }
-  return cbrt(sum);
+
+  d2.roll_n();
+  rep(i, 4) {
+    d2.roll_w();
+    rep(j, 4) {
+      d2.rotate_left();
+      if (match(d1, d2)) return true;
+    }
+  }
+
+  d2.roll_n();
+  if (d1.top_ == d2.top_) {
+    for (int i = 0; i < 4; i++) {
+      d2.rotate_left();
+      if (match(d1, d2)) return true;
+    }
+  }
+
+  return false;
 }
 
-double chebyshev(vi x, vi y) {
-  double maxv{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    double diff = abs(x[i] - y[i]);
-    if (diff > maxv) maxv = diff;
-  }
-  return maxv;
-}
-
-void solve() {
-  int n;
-  cin >> n;
-
-  vi x(n), y(n);
-  for (auto &xi : x) cin >> xi;
-  for (auto &yi : y) cin >> yi;
-
-  cout << fixed << setprecision(6);
-  cout << manhattan(x, y) << '\n';
-  cout << euclidean(x, y) << '\n';
-  cout << p3(x, y) << '\n';
-  cout << chebyshev(x, y) << '\n';
+Dice getDice() {
+  int a, b, c, d, e, f;
+  cin >> a >> b >> c >> d >> e >> f;
+  return Dice(a, b, c, d, e, f);
 }
 
 int main() {
-  FastIO;
-  solve();
+  int n;
+  cin >> n;
+
+  vector<Dice> dices;
+  rep(i, n) dices.emplace_back(getDice());
+
+  rep(i, n) reps(j, n, i + 1) {
+    if (is_same_dice(dices[i], dices[j])) {
+      cout << "No" << '\n';
+      return 0;
+    }
+  }
+
+  cout << "Yes" << '\n';
+  return 0;
 }
