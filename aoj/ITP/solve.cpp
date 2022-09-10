@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using tpl = tuple<int, int, int, int>;
 
 class Dice {
 public:
@@ -8,88 +9,28 @@ public:
   Dice(int a, int b, int c, int d, int e, int f)
       : top_(a), front_(b), right_(c), left_(d), rear_(e), bottom_(f) {}
 
-  int top() {
-    return top_;
-  }
-
-  int bottom() {
-    return bottom_;
-  }
-
-  int front() {
-    return front_;
-  }
-
-  int rear() {
-    return rear_;
-  }
-
-  int right() {
-    return right_;
-  }
-
-  int left() {
-    return left_;
-  }
-
   void roll_n() {
-    int tmp = top_;
-    top_ = front_;
-    front_ = bottom_;
-    bottom_ = rear_;
-    rear_ = tmp;
+    tie(top_, front_, bottom_, rear_) = tpl{front_, bottom_, rear_, top_};
   }
 
   void roll_s() {
-    int tmp = top_;
-    top_ = rear_;
-    rear_ = bottom_;
-    bottom_ = front_;
-    front_ = tmp;
+    tie(top_, front_, bottom_, rear_) = tpl{rear_, bottom_, front_, top_};
   }
 
   void roll_e() {
-    int tmp = top_;
-    top_ = left_;
-    left_ = bottom_;
-    bottom_ = right_;
-    right_ = tmp;
+    tie(top_, left_, bottom_, right_) = tpl{left_, bottom_, right_, top_};
   }
 
   void roll_w() {
-    int tmp = top_;
-    top_ = right_;
-    right_ = bottom_;
-    bottom_ = left_;
-    left_ = tmp;
+    tie(top_, left_, bottom_, right_) = tpl{right_, top_, left_, bottom_};
   }
 
   void rotate_left() {
-    int tmp = front_;
-    front_ = right_;
-    right_ = rear_;
-    rear_ = left_;
-    left_ = tmp;
+    tie(front_, right_, rear_, left_) = tpl{right_, rear_, left_, front_};
   }
 
   void rotate_right() {
-    int tmp = front_;
-    front_ = left_;
-    left_ = rear_;
-    rear_ = right_;
-    right_ = tmp;
-  }
-
-  void rolling(char direction) {
-    if (direction == 'N') {
-      roll_n();
-    } else if (direction == 'S') {
-      roll_s();
-    } else if (direction == 'E') {
-      roll_e();
-    } else if (direction == 'W') {
-      roll_w();
-    }
+    tie(front_, right_, rear_, left_) = tpl{left_, rear_, right_, front_};
   }
 };
 
@@ -99,25 +40,58 @@ ostream &operator<<(ostream &os, const Dice &d) {
             << ' ' << d.bottom_;
 }
 
-int main() {
+bool match(Dice &d1, Dice &d2) {
+  return d1.top_ == d2.top_ && d1.bottom_ == d2.bottom_ &&
+         d1.right_ == d2.right_ && d1.left_ == d2.left_ &&
+         d1.front_ == d2.front_ && d1.rear_ == d2.rear_;
+}
+
+bool is_same_dice(Dice &d1, Dice &d2) {
+  for (int j = 0; j < 4; j++) {
+    d2.rotate_left();
+    if (match(d1, d2)) return true;
+  }
+  return false;
+}
+
+Dice getDice() {
   int a, b, c, d, e, f;
   cin >> a >> b >> c >> d >> e >> f;
 
-  Dice dice(a, b, c, d, e, f);
+  return Dice(a, b, c, d, e, f);
+}
 
-  int q;
-  cin >> q;
+int main() {
+  Dice dice1 = getDice();
+  Dice dice2 = getDice();
 
-  for (int i = 0; i < q; i++) {
-    int top, front;
-    cin >> top >> front;
-
-    if (dice.left() == top) dice.roll_e();
-    if (dice.right() == top) dice.roll_w();
-
-    while (dice.top() != top) dice.roll_s();
-    while (dice.front() != front) dice.rotate_left();
-
-    cout << dice.right() << '\n';
+  if (is_same_dice(dice1, dice2)) {
+    cout << "Yes" << '\n';
+    return 0;
   }
+
+  dice2.roll_n();
+  if (is_same_dice(dice1, dice2)) {
+    cout << "Yes" << '\n';
+    return 0;
+  }
+
+  for (int i = 0; i < 4; i++) {
+    dice2.roll_w();
+    if (is_same_dice(dice1, dice2)) {
+      cout << "Yes" << '\n';
+      return 0;
+    }
+  }
+
+  dice2.roll_n();
+  if (dice1.top_ == dice2.top_) {
+    if (is_same_dice(dice1, dice2)) {
+      cout << "Yes" << '\n';
+      return 0;
+    }
+  }
+
+  cout << "No" << '\n';
+  return 0;
 }
