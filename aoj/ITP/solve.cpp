@@ -1,60 +1,64 @@
 #include <bits/stdc++.h>
-#define FastIO cin.tie(nullptr), ios_base::sync_with_stdio(false);
-#define REP(i, start, end) for (int i = start; i < (int)(end); i++)
-#define rep(i, n) REP(i, 0, n)
 using namespace std;
 
-using vi = vector<int>;
+class Dice {
+public:
+  int top_, front_, right_, left_, rear_, bottom_;
 
-double manhattan(vi x, vi y) {
-  double sum{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    sum += abs(x[i] - y[i]);
+  Dice(int a, int b, int c, int d, int e, int f)
+      : top_(a), front_(b), right_(c), left_(d), rear_(e), bottom_(f) {}
+
+  int top() {
+    return top_;
   }
-  return sum;
-}
 
-double euclidean(vi x, vi y) {
-  double sum{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    sum += pow((x[i] - y[i]), 2.0);
+  void rolling(char direction) {
+    if (direction == 'N') {
+      // fixed pos: right, left
+      int tmp = top_;
+      top_ = front_;
+      front_ = bottom_;
+      bottom_ = rear_;
+      rear_ = tmp;
+
+    } else if (direction == 'S') {
+      // fixed pos: right, left
+      int tmp = top_;
+      top_ = rear_;
+      rear_ = bottom_;
+      bottom_ = front_;
+      front_ = tmp;
+
+    } else if (direction == 'E') {
+      // fixed pos: front, rear
+      int tmp = top_;
+      top_ = left_;
+      left_ = bottom_;
+      bottom_ = right_;
+      right_ = tmp;
+    } else if (direction == 'W') {
+      // fixed pos: front, rear
+      int tmp = top_;
+      top_ = right_;
+      right_ = bottom_;
+      bottom_ = left_;
+      left_ = tmp;
+    }
   }
-  return sqrt(sum);
-}
-
-double p3(vi x, vi y) {
-  double sum{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    sum += pow(abs(x[i] - y[i]), 3.0);
-  }
-  return cbrt(sum);
-}
-
-double chebyshev(vi x, vi y) {
-  double maxv{0.0};
-  for (size_t i = 0; i < x.size(); i++) {
-    double diff = abs(x[i] - y[i]);
-    if (diff > maxv) maxv = diff;
-  }
-  return maxv;
-}
-
-void solve() {
-  int n;
-  cin >> n;
-
-  vi x(n), y(n);
-  for (auto &xi : x) cin >> xi;
-  for (auto &yi : y) cin >> yi;
-
-  cout << fixed << setprecision(6);
-  cout << manhattan(x, y) << '\n';
-  cout << euclidean(x, y) << '\n';
-  cout << p3(x, y) << '\n';
-  cout << chebyshev(x, y) << '\n';
-}
+};
 
 int main() {
-  FastIO;
-  solve();
+  int a, b, c, d, e, f;
+  cin >> a >> b >> c >> d >> e >> f;
+
+  Dice dice(a, b, c, d, e, f);
+
+  string s;
+  cin >> s;
+
+  for (const auto& ch : s) {
+    dice.rolling(ch);
+  }
+
+  cout << dice.top() << '\n';
 }
