@@ -12,40 +12,92 @@ public:
     return top_;
   }
 
+  int bottom() {
+    return bottom_;
+  }
+
+  int front() {
+    return front_;
+  }
+
+  int rear() {
+    return rear_;
+  }
+
+  int right() {
+    return right_;
+  }
+
+  int left() {
+    return left_;
+  }
+
+  void roll_n() {
+    int tmp = top_;
+    top_ = front_;
+    front_ = bottom_;
+    bottom_ = rear_;
+    rear_ = tmp;
+  }
+
+  void roll_s() {
+    int tmp = top_;
+    top_ = rear_;
+    rear_ = bottom_;
+    bottom_ = front_;
+    front_ = tmp;
+  }
+
+  void roll_e() {
+    int tmp = top_;
+    top_ = left_;
+    left_ = bottom_;
+    bottom_ = right_;
+    right_ = tmp;
+  }
+
+  void roll_w() {
+    int tmp = top_;
+    top_ = right_;
+    right_ = bottom_;
+    bottom_ = left_;
+    left_ = tmp;
+  }
+
+  void rotate_left() {
+    int tmp = front_;
+    front_ = right_;
+    right_ = rear_;
+    rear_ = left_;
+    left_ = tmp;
+  }
+
+  void rotate_right() {
+    int tmp = front_;
+    front_ = left_;
+    left_ = rear_;
+    rear_ = right_;
+    right_ = tmp;
+  }
+
   void rolling(char direction) {
     if (direction == 'N') {
-      // fixed pos: right, left
-      int tmp = top_;
-      top_ = front_;
-      front_ = bottom_;
-      bottom_ = rear_;
-      rear_ = tmp;
-
+      roll_n();
     } else if (direction == 'S') {
-      // fixed pos: right, left
-      int tmp = top_;
-      top_ = rear_;
-      rear_ = bottom_;
-      bottom_ = front_;
-      front_ = tmp;
-
+      roll_s();
     } else if (direction == 'E') {
-      // fixed pos: front, rear
-      int tmp = top_;
-      top_ = left_;
-      left_ = bottom_;
-      bottom_ = right_;
-      right_ = tmp;
+      roll_e();
     } else if (direction == 'W') {
-      // fixed pos: front, rear
-      int tmp = top_;
-      top_ = right_;
-      right_ = bottom_;
-      bottom_ = left_;
-      left_ = tmp;
+      roll_w();
     }
   }
 };
+
+ostream &operator<<(ostream &os, const Dice &d) {
+  return os << ' ' << d.top_ << '\n'
+            << d.left_ << d.front_ << d.right_ << d.rear_ << '\n'
+            << ' ' << d.bottom_;
+}
 
 int main() {
   int a, b, c, d, e, f;
@@ -53,12 +105,19 @@ int main() {
 
   Dice dice(a, b, c, d, e, f);
 
-  string s;
-  cin >> s;
+  int q;
+  cin >> q;
 
-  for (const auto& ch : s) {
-    dice.rolling(ch);
+  for (int i = 0; i < q; i++) {
+    int top, front;
+    cin >> top >> front;
+
+    if (dice.left() == top) dice.roll_e();
+    if (dice.right() == top) dice.roll_w();
+
+    while (dice.top() != top) dice.roll_s();
+    while (dice.front() != front) dice.rotate_left();
+
+    cout << dice.right() << '\n';
   }
-
-  cout << dice.top() << '\n';
 }
