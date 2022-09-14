@@ -41,12 +41,12 @@ Each number corresponds to the height of a particular location,
 where 9 is the highest and 0 is the lowest a location can be.
 
 > それぞれの値は ある場所の高さに一致します
-> 9 は最も高く、0 が最も引く場所という意味です
+> 9 は最も高く、0 が最も低い場所という意味です
 
-Your first goal is to find the low points
-`-` the locations that are lower than any of its adjacent locations.
+Your first goal is to find the low points - the locations
+that are lower than any of its adjacent locations.
 
-> あなたのゴールは最も低い点数を見つけることです
+> あなたの最初の目標はこの低い点を見つけることです
 > ある場所は隣接した場所のいかなる場所よりも低い場所のことです
 
 Most locations have four adjacent locations (up, down, left, and right);
@@ -75,7 +75,7 @@ In the above example,
 the risk levels of the low points are 2, 1, 6, and 6.
 The sum of the risk levels of all low points in the heightmap is therefore 15.
 
-> 引く点のリスクレベルを、自分の高さに+1 したものです
+> 低い点のリスクレベルは、自分の高さに+1 したものです
 > 高さ Map のすべての低い点を合計します、したがって 15 ポイントです
 
 Find all of the low points on your heightmap.
@@ -118,45 +118,45 @@ including the low point. The example above has four basins.
 The top-left basin, size 3:
 
 ```
-2199943210
-3987894921
-9856789892
-8767896789
-9899965678
+219.......
+39........
+9.........
+..........
+..........
 ```
 
 The top-right basin, size 9:
 
 ```
-2199943210
-3987894921
-9856789892
-8767896789
-9899965678
+....943210
+.....94921
+......9.92
+.........9
+..........
 ```
 
 The middle basin, size 14:
 
 ```
-2199943210
-3987894921
-9856789892
-8767896789
-9899965678
+..999.....
+.98789....
+9856789...
+876789....
+98999.....
 ```
 
 The bottom-right basin, size 9:
 
 ```
-2199943210
-3987894921
-9856789892
-8767896789
-9899965678
+..........
+.......9..
+......989.
+.....96789
+....965678
 ```
 
 Find the three largest basins and multiply their sizes together.
-In the above example, this is 9 _ 14 _ 9 = 1134.
+In the above example, this is `9 * 14 * 9 = 1134`.
 
 > 窪地の中で最も大きいもの 3 つ選択して
 > その掛け算で合計を算出します
@@ -164,4 +164,6 @@ In the above example, this is 9 _ 14 _ 9 = 1134.
 What do you get if you multiply together
 the sizes of the three largest basins?
 
+> つまり 端点やエッジ、9 を境界として DFSをしてください
+> という問題です
 > はいどうぞ
