@@ -51,6 +51,11 @@ First, the energy level of each octopus increases by 1.
 
 > 最初はそれぞれのタコエネルギーは 1 づつ増加していきます
 
+You can model the energy levels and flashes of light in steps.
+During a single step, the following occurs:
+
+First, the energy level of each octopus increases by 1.
+
 Then, any octopus with an energy level greater than 9 flashes.
 This increases the energy level of all adjacent octopuses by 1,
 including octopuses that are diagonally adjacent.
@@ -72,6 +77,12 @@ as it used all of its energy to flash.
 
 > 最終的に すべてのタコ助はステップ中に光ったやつは、0 にセットします
 > そしてそいつらすべてのタコも光ります
+
+Adjacent flashes can cause an octopus to flash on a step
+even if it begins that step with very little energy.
+
+Finally, any octopus that flashed during this step has its energy level set to 0,
+as it used all of its energy to flash.
 
 Adjacent flashes can cause an octopus to flash on a step
 even if it begins that step with very little energy.
@@ -476,4 +487,4 @@ If you can calculate the exact moments when the octopuses will all flash simulta
 you should be able to navigate through the cavern.
 What is the first step during which all octopuses flash?
 
-> 全部のタコが光るのはなんステップ目ですか?
+> # 全部のタコが光るのはなんステップ目ですか?
