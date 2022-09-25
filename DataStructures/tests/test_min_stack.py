@@ -1,5 +1,6 @@
 # tests/test_min_stack.py
 import pytest
+
 from src.stack import MinStack
 
 

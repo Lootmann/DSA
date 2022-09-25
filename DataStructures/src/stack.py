@@ -75,7 +75,7 @@ class MinStack:
         if self.empty():
             self._head = new_node
         else:
-            new_node.min_val = self._head.val
+            new_node.min_val = min(self._head.min_val, val)
             new_node.next = self._head
             self._head = new_node
 
