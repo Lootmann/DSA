@@ -38,9 +38,10 @@ Learn Data Structures and Algorithms.
   - [x] Open Address
   - [x] Chain Hash
 
-- [ ] Heap
+- [x] Heap
 
-  - [ ] Binary Heap
+  - [x] Binary Heap
+  - [x] Priority Queue
 
 - [ ] String
 
