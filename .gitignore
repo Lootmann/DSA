@@ -2,5 +2,5 @@
 
 venv/
 build/
-test/
-
+advent-of-code/**/test/
+aoj/**/test/
