@@ -12,7 +12,7 @@ Learn Data Structures and Algorithms.
 - [Leetcode](https://leetcode.com/)
   - [Leetcode Easy](https://leetcode.com/problemset/all/?difficulty=EASY&page=1)
   - [Leetcode Medium](https://leetcode.com/problemset/all/?difficulty=MEDIUM&page=1)
-- [Advent Of Code](https://adventofcode.com/2021)
+- [Advent Of Code](https://adventofcode.com/)
 
 ## Lists
 
@@ -38,9 +38,10 @@ Learn Data Structures and Algorithms.
   - [x] Open Address
   - [x] Chain Hash
 
-- [ ] Heap
+- [x] Heap
 
-  - [ ] Binary Heap
+  - [x] Binary Heap
+  - [x] Priority Queue
 
 - [ ] String
 

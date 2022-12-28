@@ -1,6 +1,7 @@
 # tests/test_min_stack.py
 import pytest
-from src.stack import MinStack
+
+from src.min_stack import MinStack
 
 
 class TestMinStack:
@@ -75,7 +76,7 @@ class TestMinStackRaises:
         with pytest.raises(ValueError):
             self.st.peek()
 
-    def test_pop_raise_ValueError_when_stack_is_empty(self):
+    def test_pop_raise_exception_when_stack_is_empty(self):
         self.st.push(1)
         assert self.st.pop().val == 1
         assert self.st.size == 0
