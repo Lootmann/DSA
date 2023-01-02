@@ -119,50 +119,6 @@ void connecting_rope(Pos const& head, Pos& tail) {
   }
 }
 
-auto show = [](vector<Pos> ropes, set<pair<int, int>> st) {
-  int min_w{100000}, min_h{100000}, max_w{-100000}, max_h{-100000};
-  for (auto& p : ropes) {
-    min_w = min(min_w, p.x);
-    max_w = max(max_w, p.x);
-    min_h = min(min_h, p.y);
-    max_h = max(max_h, p.y);
-  }
-
-  for (auto& cell : st) {
-    min_w = min(min_w, cell.second);
-    max_w = max(max_w, cell.second);
-    min_h = min(min_h, cell.first);
-    max_h = max(max_h, cell.first);
-  }
-
-  int diff_w = abs(min_w), diff_h = abs(min_h);
-  max_w += abs(min_w);
-  min_w = 0;
-  max_h += abs(min_h);
-  min_h = 0;
-
-  vector<vector<char>> field(max_h + 3, vector<char>(max_w + 3, '.'));
-
-  for (int i = 0; i < (int)ropes.size(); ++i) {
-    if (i == 0)
-      field[ropes[i].y + diff_h][ropes[i].x + diff_w] = 'H';
-    else
-      field[ropes[i].y + diff_h][ropes[i].x + diff_w] = i + '0';
-  }
-
-  for (auto& s : st) {
-    field[s.first + diff_h][s.second + diff_w] = '#';
-  }
-
-  for (size_t y = 0; y < field.size(); y++) {
-    for (size_t x = 0; x < field[0].size(); x++) {
-      cout << field[y][x];
-    }
-    cout << '\n';
-  }
-  cout << '\n';
-};
-
 int main() {
   FastIO;
 
@@ -213,8 +169,6 @@ int main() {
 
       // show
       st.insert(ropes.back().out());
-
-      show(ropes, st);
     }
   }
 
