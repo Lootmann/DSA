@@ -4,3 +4,5 @@ venv/
 build/
 advent-of-code/**/test/
 aoj/**/test/
+test/
+.clangd
