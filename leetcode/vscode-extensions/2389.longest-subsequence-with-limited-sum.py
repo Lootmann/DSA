@@ -8,13 +8,22 @@ from typing import List
 # @lc code=start
 class Solution:
     def answerQueries(self, nums: List[int], queries: List[int]) -> List[int]:
-        sums = []
+        ans = []
+        nums.sort()
 
-        for i in range(len(nums)):
-            for j in range(len(nums)):
-                pass
+        for q in queries:
+            s, l = 0, 0
 
-        return []
+            for num in nums:
+                if s + num <= q:
+                    s += num
+                    l += 1
+                else:
+                    bjreak
+
+            ans.append(l)
+
+        return ans
 
 
 # @lc code=end
